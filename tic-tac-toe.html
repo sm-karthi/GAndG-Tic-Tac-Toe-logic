@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic-Tac-Toe</title>
+</head>
+
+<body>
+    
+    <script>
+        let res = document.createElement("h1"); 
+
+        let gameOver = false;
+
+        let container = document.createElement("div");
+        container.style.width = "306px";
+        container.style.height = "300px";
+        container.style.backgroundColor = "gray";
+        container.style.display = "flex";
+        container.style.flexWrap = "wrap";
+
+        let array = [];
+        for(let i = 0; i < 9; i++){
+            array.push(null);
+        }
+        
+        let currentLetter = "O";
+
+        for (let i = 0; i < 9; i++) {
+            let box = document.createElement("div");
+            box.style.width = "100px";
+            box.style.height = "100px";
+            box.style.backgroundColor = "wheat";
+            box.style.border = "1px solid black";
+            box.style.display = "flex";
+            box.style.justifyContent = "center";
+            box.style.alignItems = "center";
+            box.style.fontSize = "50px";
+            box.style.cursor = "pointer";
+
+            box.onclick = function () {
+                if (this.innerText === "" && !gameOver) {
+                    if (currentLetter === "X") {
+                        this.innerText = "O";
+                        array[i] = "O";
+                        currentLetter = "O";
+                    } else {
+                        this.innerText = "X";
+                        array[i] = "X";
+                        currentLetter = "X";
+                    }
+
+                    let bigArray = convertTwoDArray(array);
+                    console.log(bigArray);
+
+                    let result = ticTacToe(bigArray);
+                    res.innerText = result;
+                }
+            }
+
+            box.onmouseenter = function () {
+                this.style.backgroundColor = "#f5d27f";
+            }
+
+            box.onmouseleave = function () {
+                this.style.backgroundColor = "wheat";
+            }
+
+            container.appendChild(box);
+        }
+
+        document.body.appendChild(container);
+        document.body.appendChild(res); 
+
+        function convertTwoDArray(array) {
+            let bigArray = [];
+            for (let i = 0; i < 3; i++) {
+                let smallArray = array.slice(i * 3, i * 3 + 3);
+                bigArray.push(smallArray);
+            }
+            return bigArray;
+        }
+
+        function winCheck(arr, target) {
+            for (let i = 0; i < arr.length; i++) {
+                let count = 0;
+                for (let j = 0; j < arr[i].length; j++) {
+                    if (target === arr[i][j]) {
+                        count++;
+                    }
+                }
+                if (count === arr[i].length) {
+                    return true;
+                }
+
+                count = 0;
+                for (let j = 0; j < arr.length; j++) {
+                    if (target === arr[j][i]) {
+                        count++;
+                    }
+                }
+                if (count === arr.length) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        function crossCheck(arr, target) {
+            let count = 0;
+            for (let i = 0; i < arr.length; i++) {
+                if (target === arr[i][i]) {
+                    count++;
+                }
+            }
+            if (count === arr.length) return true;
+
+            count = 0;
+            let j = 0;
+            for (let i = arr.length - 1; i >= 0; i--) {
+                if (target === arr[j][i]) {
+                    count++;
+                }
+                j++;
+            }
+            return count === arr.length;
+        }
+
+        function drawCheck(arr) {
+            for (let i = 0; i < arr.length; i++) {
+                for (let j = 0; j < arr[i].length; j++) {
+                    if (arr[i][j] == null) {
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+
+        function ticTacToe(arr) {
+            if (winCheck(arr, "X") || crossCheck(arr, "X")) {
+                gameOver = true;
+                return "X is win";
+            } else if (winCheck(arr, "O") || crossCheck(arr, "O")) {
+                gameOver = true;
+                return "O is win";
+            } else if (drawCheck(arr)) {
+                gameOver = true;
+                return "macth is draw";
+            } else {
+                return "Boad not finished";
+            }
+        }
+    </script>
+</body>
+
+</html>
