@@ -12,6 +12,10 @@
     <script>
         let res = document.createElement("h1");
 
+        let heading = document.createElement("h1");
+        heading.innerText = "Tic-Tac-Toe game"
+        document.body.appendChild(heading);
+
         let gameOver = false;
 
         let container = document.createElement("div");
@@ -20,6 +24,7 @@
         container.style.backgroundColor = "gray";
         container.style.display = "flex";
         container.style.flexWrap = "wrap";
+      
 
         let matrix = [];
         for (let i = 0; i < 3; i++) {
